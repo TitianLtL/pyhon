@@ -1,5 +1,4 @@
-import os
-import gc
+
 from datetime import datetime
 
 header='PREV_EXTRACT_TS;CURR_EXTRACT_TS;CRUD_ACTION;DOMAIN;PAYLOAD\n'
@@ -15,10 +14,11 @@ def createDataFile(name, size, line=''):
     createFile(name, header)
     printLog("start loop :")
     for x in range(size):
-        line += com.replace('?', 'U') + dp1 + f'{x}' + dp3 + '\n'
+        # line += com.replace('?', 'U') + dp1 + f'{x}' + dp3 + '\n'
+        parts = [com.replace('?', 'U'), dp1, str(x), dp3, '\n']
+        line = line + ''.join(parts)
         if x % 10000 == 0:
             createFile(name,line)
-            gc.collect()
             line=''
     createFile(name, line)
     printLog("loop end   :")
